@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<section class="hero text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Construcciones MG</h1>
+        <p class="lead mb-4">Transformamos tus ideas en espacios concretos. Remodelaciones, ampliaciones y obras desde cero.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a th:href="@{/login}" class="btn btn-orange btn-lg">Iniciar sesion</a>
+            <a th:href="@{/register}" class="btn btn-outline-light btn-lg">Registrarse</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-dark-blue">Nuestros trabajos</h2>
+            <p class="text-muted">Algunos proyectos realizados por Construcciones MG</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" th:each="p : ${proyectos}">
+                <div class="card h-100 shadow-sm card-proyecto">
+                    <img th:src="${p.imagenUrl}" class="card-img-top" alt="Proyecto">
+                    <div class="card-body">
+                        <span class="badge mb-2"
+                              th:classappend="${p.tipo.name()} == 'REMODELACION' ? 'badge-remodelacion' : 'badge-nueva'"
+                              th:text="${p.tipo.name() == 'REMODELACION' ? 'Remodelacion' : 'Nueva obra'}">Tipo</span>
+                        <h5 class="card-title" th:text="${p.nombre}">Nombre</h5>
+                        <p class="card-text text-muted" th:text="${#strings.abbreviate(p.descripcion, 120)}">Descripcion</p>
+                        <p class="small text-muted"><i class="bi bi-geo-alt"></i> <span th:text="${p.ubicacion}">Ubicacion</span></p>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a th:href="@{/login}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="fw-bold text-dark-blue">Solicita una cotizacion</h2>
+                <p class="text-muted">Registrate como cliente y contacta directamente con el contratista. Te responderemos en el menor tiempo posible.</p>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Atencion personalizada</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Presupuestos detallados</li>
+                    <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Seguimiento de tus obras</li>
+                </ul>
+                <a th:href="@{/register}" class="btn btn-orange">Crear cuenta gratis</a>
+            </div>
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded shadow" alt="Cotizacion">
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

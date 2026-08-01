@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Gestionar Proyectos')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+            <div th:replace="~{fragments :: admin-sidebar}"></div>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4 px-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="text-dark-blue">Proyectos</h2>
+                <a th:href="@{/admin/proyectos/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Nuevo proyecto</a>
+            </div>
+
+            <div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
+            <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+            <form method="get" th:action="@{/admin/proyectos}" class="row g-2 mb-3">
+                <div class="col-md-3">
+                    <select name="tipo" class="form-select">
+                        <option value="" th:selected="${tipoSeleccionado == null || tipoSeleccionado == ''}">Todos los tipos</option>
+                        <option th:each="t : ${tipos}" th:value="${t.name()}" th:text="${t.name() == 'REMODELACION' ? 'Remodelacion' : 'Nueva obra'}"
+                                th:selected="${tipoSeleccionado == t.name()}">Tipo</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Ubicacion</th>
+                        <th>Fechas</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${proyectos}">
+                        <td th:text="${p.nombre}">Nombre</td>
+                        <td>
+                            <span class="badge"
+                                  th:classappend="${p.tipo.name()} == 'REMODELACION' ? 'badge-remodelacion' : 'badge-nueva'"
+                                  th:text="${p.tipo.name() == 'REMODELACION' ? 'Remodelacion' : 'Nueva obra'}">Tipo</span>
+                        </td>
+                        <td th:text="${p.ubicacion}">Ubicacion</td>
+                        <td>
+                            <span th:text="${p.fechaInicio}">Inicio</span><br>
+                            <span class="text-muted" th:text="${p.fechaFin}">Fin</span>
+                        </td>
+                        <td th:text="${p.estado}">Estado</td>
+                        <td class="table-actions">
+                            <a th:href="@{/admin/proyectos/editar/{id}(id=${p.id})}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                            <a th:href="@{/admin/proyectos/eliminar/{id}(id=${p.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Eliminar proyecto?')"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

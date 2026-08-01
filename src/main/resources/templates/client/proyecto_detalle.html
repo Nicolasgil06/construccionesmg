@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Detalle de Obra')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+            <div th:replace="~{fragments :: client-sidebar}"></div>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4 px-4">
+            <a th:href="@{/client/proyectos}" class="btn btn-outline-secondary btn-sm mb-3"><i class="bi bi-arrow-left"></i> Volver</a>
+            <h2 class="text-dark-blue" th:text="${proyecto.nombre}">Nombre</h2>
+
+            <div class="row g-4 mt-2">
+                <div class="col-md-6">
+                    <img th:src="${proyecto.imagenUrl}" class="img-fluid rounded shadow" alt="Proyecto">
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">Especificaciones</h5>
+                            <span class="badge mb-2"
+                                  th:classappend="${proyecto.tipo.name()} == 'REMODELACION' ? 'badge-remodelacion' : 'badge-nueva'"
+                                  th:text="${proyecto.tipo.name() == 'REMODELACION' ? 'Remodelacion' : 'Nueva obra'}">Tipo</span>
+                            <p class="text-muted" th:text="${proyecto.descripcion}">Descripcion</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" th:each="e : ${proyecto.especificaciones}" th:text="${e}">Especificacion</li>
+                            </ul>
+                            <hr>
+                            <p><strong><i class="bi bi-geo-alt"></i> Ubicacion:</strong> <span th:text="${proyecto.ubicacion}"></span></p>
+                            <p><strong><i class="bi bi-calendar"></i> Fecha inicio:</strong> <span th:text="${proyecto.fechaInicio}"></span></p>
+                            <p><strong><i class="bi bi-calendar-check"></i> Fecha fin:</strong> <span th:text="${proyecto.fechaFin}"></span></p>
+                            <p><strong><i class="bi bi-info-circle"></i> Estado:</strong> <span th:text="${proyecto.estado}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

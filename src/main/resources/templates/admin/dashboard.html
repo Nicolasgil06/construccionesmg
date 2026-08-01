@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Panel Admin')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+            <div th:replace="~{fragments :: admin-sidebar}"></div>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4 px-4">
+            <h2 class="mb-4 text-dark-blue">Dashboard administrativo</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-building"></i> Proyectos</h5>
+                            <p class="display-6" th:text="${totalProyectos}">0</p>
+                            <a th:href="@{/admin/proyectos}" class="text-white text-decoration-none">Gestionar &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-warning shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-envelope"></i> Cotizaciones</h5>
+                            <p class="display-6" th:text="${totalCotizaciones}">0</p>
+                            <a th:href="@{/admin/cotizaciones}" class="text-white text-decoration-none">Responder &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-people"></i> Clientes</h5>
+                            <p class="display-6" th:text="${totalClientes}">0</p>
+                            <a th:href="@{/admin/clientes}" class="text-white text-decoration-none">Ver clientes &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <h4 class="text-dark-blue">Acciones rapidas</h4>
+                <div class="d-flex gap-3 mt-3">
+                    <a th:href="@{/admin/proyectos/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Nuevo proyecto</a>
+                    <a th:href="@{/admin/clientes/nuevo}" class="btn btn-success"><i class="bi bi-person-plus"></i> Nuevo cliente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${proyecto.id != null ? 'Editar Proyecto' : 'Nuevo Proyecto'})}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+            <div th:replace="~{fragments :: admin-sidebar}"></div>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4 px-4">
+            <h2 class="text-dark-blue mb-4" th:text="${proyecto.id != null ? 'Editar proyecto' : 'Nuevo proyecto'}">Proyecto</h2>
+            <div class="card shadow">
+                <div class="card-body">
+                    <form th:action="@{/admin/proyectos/guardar}" th:object="${proyecto}" method="post">
+                        <input type="hidden" th:field="*{id}">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" th:field="*{nombre}" class="form-control" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Tipo</label>
+                                <select th:field="*{tipo}" class="form-select" required>
+                                    <option th:each="t : ${tipos}" th:value="${t.name()}" th:text="${t.name() == 'REMODELACION' ? 'Remodelacion' : 'Nueva obra'}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Estado</label>
+                                <select th:field="*{estado}" class="form-select" required>
+                                    <option th:each="e : ${estados}" th:value="${e.name()}" th:text="${e.name()}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Ubicacion</label>
+                                <input type="text" th:field="*{ubicacion}" class="form-control" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Fecha inicio</label>
+                                <input type="date" th:field="*{fechaInicio}" class="form-control" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Fecha fin</label>
+                                <input type="date" th:field="*{fechaFin}" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Cliente asociado</label>
+                                <select th:field="*{clienteId}" class="form-select">
+                                    <option value="">Sin cliente asociado</option>
+                                    <option th:each="c : ${clientes}" th:value="${c.id}" th:text="${c.nombre + ' (' + c.email + ')'}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">URL de imagen</label>
+                                <input type="url" th:field="*{imagenUrl}" class="form-control" placeholder="https://...">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Descripcion</label>
+                                <textarea th:field="*{descripcion}" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Especificaciones (una por linea)</label>
+                                <textarea name="especificacionesText" class="form-control" rows="5"
+                                          th:text="${proyecto.especificaciones != null} ? ${#strings.arrayJoin(proyecto.especificaciones.toArray(), '&#10;')} : ''"></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-orange">Guardar</button>
+                            <a th:href="@{/admin/proyectos}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

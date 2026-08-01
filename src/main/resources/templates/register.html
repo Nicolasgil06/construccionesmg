@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Registro')}"></head>
+<body class="bg-light">
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <h2 class="text-center mb-4 text-dark-blue">Crear cuenta de cliente</h2>
+                        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+                        <form th:action="@{/register}" th:object="${user}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Usuario</label>
+                                <input type="text" th:field="*{username}" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Contrasena</label>
+                                <input type="password" th:field="*{password}" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nombre completo</label>
+                                <input type="text" th:field="*{nombre}" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Correo electronico</label>
+                                <input type="email" th:field="*{email}" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Telefono</label>
+                                <input type="tel" th:field="*{telefono}" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-orange w-100">Registrarse</button>
+                        </form>
+                        <hr>
+                        <p class="text-center mb-0">Ya tienes cuenta? <a th:href="@{/login}">Inicia sesion</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

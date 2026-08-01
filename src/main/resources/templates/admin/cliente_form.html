@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Nuevo Cliente')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+            <div th:replace="~{fragments :: admin-sidebar}"></div>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4 px-4">
+            <h2 class="text-dark-blue mb-4">Registrar nuevo cliente</h2>
+            <div class="card shadow">
+                <div class="card-body">
+                    <form th:action="@{/admin/clientes/guardar}" th:object="${user}" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Usuario</label>
+                                <input type="text" th:field="*{username}" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Contrasena</label>
+                                <input type="password" th:field="*{password}" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre completo</label>
+                                <input type="text" th:field="*{nombre}" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" th:field="*{email}" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Telefono</label>
+                                <input type="tel" th:field="*{telefono}" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-orange">Guardar cliente</button>
+                            <a th:href="@{/admin/clientes}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

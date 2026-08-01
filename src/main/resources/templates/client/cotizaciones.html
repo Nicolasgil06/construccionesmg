@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Mis Cotizaciones')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+            <div th:replace="~{fragments :: client-sidebar}"></div>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4 px-4">
+            <h2 class="text-dark-blue mb-4">Mis cotizaciones</h2>
+            <div class="row g-4">
+                <div class="col-md-6" th:each="c : ${cotizaciones}">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h5 class="card-title" th:text="${c.titulo}">Titulo</h5>
+                                <span class="badge"
+                                      th:classappend="${c.estado.name()} == 'PENDIENTE' ? 'bg-warning text-dark' : (${c.estado.name()} == 'RESPONDIDA' ? 'bg-success' : 'bg-info')"
+                                      th:text="${c.estado.name()}">Estado</span>
+                            </div>
+                            <p class="text-muted small">
+                                <i class="bi bi-calendar"></i> <span th:text="${#temporals.format(c.fechaSolicitud, 'dd/MM/yyyy HH:mm')}">Fecha</span>
+                            </p>
+                            <p class="card-text" th:text="${c.descripcion}">Descripcion</p>
+                            <p class="mb-1"><strong>Tipo:</strong> <span th:text="${c.tipoTrabajo}">Tipo</span></p>
+                            <p class="mb-1"><strong>Ubicacion:</strong> <span th:text="${c.ubicacion}">Ubicacion</span></p>
+                            <div th:if="${c.respuestaAdmin != null}" class="alert alert-light mt-3">
+                                <strong>Respuesta del contratista:</strong><br>
+                                <span th:text="${c.respuestaAdmin}">Respuesta</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12" th:if="${cotizaciones.isEmpty()}">
+                    <div class="alert alert-info">Aun no has enviado cotizaciones. <a th:href="@{/client/cotizacion}">Solicita una aqui</a>.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

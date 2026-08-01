@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Mi Panel')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+            <div th:replace="~{fragments :: client-sidebar}"></div>
+        </div>
+        <div class="col-md-9 col-lg-10 py-4 px-4">
+            <h2 class="text-dark-blue mb-3">Hola, <span th:text="${user.nombre}">Cliente</span></h2>
+            <p class="text-muted">Bienvenido a tu panel de cliente. Aqui puedes revisar tus obras, solicitar cotizaciones y contactar al contratista.</p>
+
+            <div class="row g-4 mt-2">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-building"></i> Mis obras</h5>
+                            <p class="display-6" th:text="${proyectos.size()}">0</p>
+                            <a th:href="@{/client/proyectos}" class="text-white text-decoration-none">Ver obras &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-warning shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-envelope"></i> Cotizaciones</h5>
+                            <p class="display-6" th:text="${cotizaciones.size()}">0</p>
+                            <a th:href="@{/client/cotizaciones}" class="text-white text-decoration-none">Ver cotizaciones &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-chat-left-text"></i> Contactar</h5>
+                            <p class="card-text">Solicita una nueva cotizacion al contratista.</p>
+                            <a th:href="@{/client/cotizacion}" class="text-white text-decoration-none">Solicitar ahora &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <h4 class="text-dark-blue">Mis obras recientes</h4>
+                <div class="row g-4 mt-2">
+                    <div class="col-md-4" th:each="p : ${proyectos}">
+                        <div class="card h-100 shadow-sm card-proyecto">
+                            <img th:src="${p.imagenUrl}" class="card-img-top" alt="Proyecto">
+                            <div class="card-body">
+                                <span class="badge"
+                                      th:classappend="${p.tipo.name()} == 'REMODELACION' ? 'badge-remodelacion' : 'badge-nueva'"
+                                      th:text="${p.tipo.name() == 'REMODELACION' ? 'Remodelacion' : 'Nueva obra'}">Tipo</span>
+                                <h5 class="card-title" th:text="${p.nombre}">Nombre</h5>
+                                <p class="card-text text-muted" th:text="${#strings.abbreviate(p.descripcion, 80)}">Descripcion</p>
+                                <a th:href="@{/client/proyectos/{id}(id=${p.id})}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" th:if="${proyectos.isEmpty()}">
+                        <div class="alert alert-info">Aun no tienes obras asignadas. Solicita una cotizacion para iniciar un proyecto.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>
