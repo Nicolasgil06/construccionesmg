@@ -73,7 +73,8 @@ spring.data.mongodb.uri=mongodb://localhost:27017/construccionesmg
 - Dashboard con estadisticas.
 - CRUD de proyectos (remodelaciones o nuevas obras).
 - Gestion de clientes.
-- Respuesta a solicitudes de cotizacion.
+- Respuesta a solicitudes de cotizacion con texto y opcionalmente un PDF adjunto.
+- Los PDFs se almacenan en la carpeta `uploads/cotizaciones` y son visibles/descargables por el cliente.
 
 ### Panel de cliente
 

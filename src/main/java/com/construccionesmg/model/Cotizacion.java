@@ -25,6 +25,7 @@ public class Cotizacion {
     private LocalDateTime fechaSolicitud = LocalDateTime.now();
     private EstadoCotizacion estado = EstadoCotizacion.PENDIENTE;
     private String respuestaAdmin;
+    private String pdfPath;
 
     public Cotizacion() {}
 
@@ -98,5 +99,13 @@ public class Cotizacion {
 
     public void setRespuestaAdmin(String respuestaAdmin) {
         this.respuestaAdmin = respuestaAdmin;
+    }
+
+    public String getPdfPath() {
+        return pdfPath;
+    }
+
+    public void setPdfPath(String pdfPath) {
+        this.pdfPath = pdfPath;
     }
 }

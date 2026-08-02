@@ -36,11 +36,14 @@ public class CotizacionService {
         cotizacionRepository.deleteById(id);
     }
 
-    public Cotizacion responder(String id, String respuesta) {
+    public Cotizacion responder(String id, String respuesta, String pdfPath) {
         Cotizacion c = cotizacionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Cotizacion no encontrada"));
         c.setRespuestaAdmin(respuesta);
         c.setEstado(Cotizacion.EstadoCotizacion.RESPONDIDA);
+        if (pdfPath != null) {
+            c.setPdfPath(pdfPath);
+        }
         return cotizacionRepository.save(c);
     }
 }

@@ -37,9 +37,18 @@
                                 <strong>Respuesta:</strong> <span th:text="${c.respuestaAdmin}">Respuesta</span>
                             </div>
 
-                            <form th:action="@{/admin/cotizaciones/responder/{id}(id=${c.id})}" method="post" class="mt-3" th:if="${c.estado.name() != 'RESPONDIDA'}">
+                            <div th:if="${c.pdfPath != null}" class="alert alert-info mt-3">
+                                <strong><i class="bi bi-file-earmark-pdf"></i> PDF adjunto:</strong>
+                                <a th:href="@{/uploads/} + ${c.pdfPath}" target="_blank" class="alert-link">Ver / descargar PDF</a>
+                            </div>
+
+                            <form th:action="@{/admin/cotizaciones/responder/{id}(id=${c.id})}" method="post" enctype="multipart/form-data" class="mt-3" th:if="${c.estado.name() != 'RESPONDIDA'}">
                                 <div class="mb-2">
                                     <textarea name="respuesta" class="form-control" rows="2" placeholder="Escribe tu respuesta..." required></textarea>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small">Adjuntar PDF de cotizacion</label>
+                                    <input type="file" name="pdf" class="form-control form-control-sm" accept=".pdf,application/pdf">
                                 </div>
                                 <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-reply"></i> Responder</button>
                             </form>

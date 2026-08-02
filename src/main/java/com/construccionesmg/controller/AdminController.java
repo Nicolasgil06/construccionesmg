@@ -4,6 +4,7 @@ import com.construccionesmg.model.Cotizacion;
 import com.construccionesmg.model.Proyecto;
 import com.construccionesmg.model.User;
 import com.construccionesmg.service.CotizacionService;
+import com.construccionesmg.service.FileStorageService;
 import com.construccionesmg.service.ProyectoService;
 import com.construccionesmg.service.UserService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
@@ -24,13 +26,16 @@ public class AdminController {
     private final ProyectoService proyectoService;
     private final CotizacionService cotizacionService;
     private final UserService userService;
+    private final FileStorageService fileStorageService;
 
     public AdminController(ProyectoService proyectoService,
                            CotizacionService cotizacionService,
-                           UserService userService) {
+                           UserService userService,
+                           FileStorageService fileStorageService) {
         this.proyectoService = proyectoService;
         this.cotizacionService = cotizacionService;
         this.userService = userService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping("/dashboard")
@@ -119,10 +124,16 @@ public class AdminController {
     @PostMapping("/cotizaciones/responder/{id}")
     public String responderCotizacion(@PathVariable String id,
                                       @RequestParam("respuesta") String respuesta,
+                                      @RequestParam("pdf") MultipartFile pdf,
                                       RedirectAttributes redirectAttributes) {
         try {
-            cotizacionService.responder(id, respuesta);
-            redirectAttributes.addFlashAttribute("message", "Cotizacion respondida correctamente");
+            String pdfPath = fileStorageService.storePdf(pdf, id);
+            cotizacionService.responder(id, respuesta, pdfPath);
+            String msg = "Cotizacion respondida correctamente";
+            if (pdfPath != null) {
+                msg += " con PDF adjunto";
+            }
+            redirectAttributes.addFlashAttribute("message", msg);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al responder: " + e.getMessage());
         }

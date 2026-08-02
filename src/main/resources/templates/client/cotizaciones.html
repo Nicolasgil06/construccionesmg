@@ -31,6 +31,12 @@
                                 <strong>Respuesta del contratista:</strong><br>
                                 <span th:text="${c.respuestaAdmin}">Respuesta</span>
                             </div>
+                            <div th:if="${c.pdfPath != null}" class="alert alert-info mt-3">
+                                <strong><i class="bi bi-file-earmark-pdf"></i> Cotizacion en PDF:</strong><br>
+                                <a th:href="@{/uploads/} + ${c.pdfPath}" target="_blank" class="btn btn-outline-danger btn-sm mt-2">
+                                    <i class="bi bi-download"></i> Descargar PDF
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
